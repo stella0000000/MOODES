@@ -36,13 +36,13 @@ function setup() {
   radio.option('UNDERWATER')
   radio.option('OUTER SPACE')
   radio.option('UGHHHHHHHHHH')
+  radio.selected('DRAW EVERYWHERE');
   radio.changed(clearBackground)
   fill(255, 0, 0)
 }
 
 function draw() {
-  let val = radio.value()
-  if (radio.value() === 'DRAW MODE') {
+  if (radio.value() === 'DRAW EVERYWHERE') {
     mouseDragged()
   } else if (radio.value() === 'UNDERWATER') {
     clearBackground()
@@ -51,9 +51,9 @@ function draw() {
     clearBackground()
     generateSparkles()
   } else if (radio.value() === 'UGHHHHHHHHHH') {
-    clearBackground()
-    textSize(50)
+    // clearBackground()
     mouseClicked()
+    textSize(50)
   }
 }
 
@@ -62,10 +62,12 @@ function clearBackground() {
 }
 
 function mouseDragged() {
-  strokeWeight(3)
-  stroke(191, 0, 255)
-  if (mouseIsPressed === true) {
-    line(mouseX, mouseY, pmouseX, pmouseY)
+  if (radio.value() === 'DRAW EVERYWHERE') {
+    strokeWeight(3)
+    stroke(191, 0, 255)
+    if (mouseIsPressed === true) {
+      line(mouseX, mouseY, pmouseX, pmouseY)
+    }
   }
 }
 
@@ -109,11 +111,10 @@ function generateSparkles() {
   }
 }
 
-// if (radio.value() === 'UGHHHHHHHHHH') {
-  // broken-ish
-  function mouseClicked() {
+function mouseClicked() {
+  if (mouseIsPressed === true) {
     text('🖕', mouseX, mouseY)
     // prevent default
     return false;
   }
-// }
+}
