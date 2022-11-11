@@ -3,7 +3,7 @@ let sparkle;
 let canvas;
 let sparklePoints = [];
 let bubblePoints = [];
-let sparkleVel = 10;
+let sparkleVel = 14;
 let bubbleVel = 18;
 
 function preload() {
@@ -12,39 +12,48 @@ function preload() {
 }
 
 function setup() {
-  imageMode(CENTER)
-  c = createCanvas(windowWidth, windowHeight)
-  c.style("z-index", 1000)
+  // performance takes a hit on some pages
+  // when defining the canvas height as the entire page
+  // but we need to - so not sure how to optimize
+  let h = document.documentElement.scrollHeight
+  c = createCanvas(windowWidth, h)
+
+  c.style("z-index", 1000000)
   c.style("pointer-events", "none")
   c.elt.style.position = "fixed"
   c.position(0,0)
-
+  imageMode(CENTER)
+  textSize(20);
   radio = createRadio()
-  radio.position(windowWidth-115,0)
+  radio.position(0, 0)
   radio.style("z-index", 1000)
+  radio.style('position', 'fixed')
   radio.style('background-color', color(0, 0, 0))
   radio.style('color', color(255, 255, 255))
   radio.style('display', 'flex')
   radio.style('flex-direction', 'column')
-  radio.option('DRAW MODE')
+  radio.option('DRAW EVERYWHERE')
   radio.option('UNDERWATER')
-  radio.option('SPACE MODE')
-  radio.style('width', '115px')
+  radio.option('OUTER SPACE')
+  radio.option('UGHHHHHHHHHH')
   radio.changed(clearBackground)
-  textAlign(CENTER)
   fill(255, 0, 0)
 }
 
 function draw() {
   let val = radio.value()
   if (radio.value() === 'DRAW MODE') {
-    mouseDragged()
+    drawEverywhere()
   } else if (radio.value() === 'UNDERWATER') {
     clearBackground()
     generateBubbles()
-  } else if (radio.value() === 'SPACE MODE') {
+  } else if (radio.value() === 'OUTER SPACE') {
     clearBackground()
     generateSparkles()
+  } else if (radio.value() === 'UGHHHHHHHHHH') {
+    clearBackground()
+    textSize(50)
+    mouseClicked()
   }
 }
 
@@ -53,10 +62,13 @@ function clearBackground() {
 }
 
 function mouseDragged() {
-  strokeWeight(3)
-  stroke(191, 0, 255)
-  if (mouseIsPressed === true) {
-    line(mouseX, mouseY, pmouseX, pmouseY)
+  console.log(radio.value())
+  if (radio.value() === 'DRAW MODE') {
+    strokeWeight(3)
+    stroke(191, 0, 255)
+    if (mouseIsPressed === true) {
+      line(mouseX, mouseY, pmouseX, pmouseY)
+    }
   }
 }
 
@@ -68,14 +80,12 @@ function generateBubbles() {
     bubblePoint = {
       x: mouseX,
       y: mouseY,
-      // rotation: PI / 180 * Math.floor(Math.random() * 45)
     }
     bubblePoints.push(bubblePoint)
   }
   
   if (bubblePoints.length > 0){
     for (let i=0; i<bubblePoints.length; i++) {
-      // rotate(bubblePoints[i].rotation)
       image(bubbleImg, bubblePoints[i].x, bubblePoints[i].y)
       bubblePoints[i].y -= bubbleVel
     }
@@ -83,7 +93,7 @@ function generateBubbles() {
 }
 
 function generateSparkles() {
-  c.background('rgba(0, 0, 0, 0.5)')
+  c.background('rgba(0, 0, 0, 0.4)')
   const sparkle_size = 200
   sparkleImg.resize(sparkle_size, sparkle_size)
   if (Math.random() > 0.9) {    
@@ -100,4 +110,12 @@ function generateSparkles() {
       sparklePoints[i].y += sparkleVel
     }
   }
+}
+
+function mouseClicked() {
+  // if (radio.value() === 'UGHHHHHHHHHH') {
+  text('🖕', mouseX, mouseY)
+    // prevent default
+  return false;
+  // }
 }
