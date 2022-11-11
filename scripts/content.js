@@ -43,7 +43,7 @@ function setup() {
 function draw() {
   let val = radio.value()
   if (radio.value() === 'DRAW MODE') {
-    drawEverywhere()
+    mouseDragged()
   } else if (radio.value() === 'UNDERWATER') {
     clearBackground()
     generateBubbles()
@@ -62,13 +62,10 @@ function clearBackground() {
 }
 
 function mouseDragged() {
-  console.log(radio.value())
-  if (radio.value() === 'DRAW MODE') {
-    strokeWeight(3)
-    stroke(191, 0, 255)
-    if (mouseIsPressed === true) {
-      line(mouseX, mouseY, pmouseX, pmouseY)
-    }
+  strokeWeight(3)
+  stroke(191, 0, 255)
+  if (mouseIsPressed === true) {
+    line(mouseX, mouseY, pmouseX, pmouseY)
   }
 }
 
@@ -112,10 +109,11 @@ function generateSparkles() {
   }
 }
 
-function mouseClicked() {
-  // if (radio.value() === 'UGHHHHHHHHHH') {
-  text('🖕', mouseX, mouseY)
+// if (radio.value() === 'UGHHHHHHHHHH') {
+  // broken-ish
+  function mouseClicked() {
+    text('🖕', mouseX, mouseY)
     // prevent default
-  return false;
-  // }
-}
+    return false;
+  }
+// }
