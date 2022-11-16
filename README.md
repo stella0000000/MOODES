@@ -1,5 +1,5 @@
 ## MOODES
-MOODES applies four modes to any website. It allows users to:<br>
+MOODES applies four modes / moods to any website. It allows users to:<br>
 1. draw everywhere<br>
 2. swim underwater<br>
 3. float in outer space<br>
